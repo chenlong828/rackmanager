@@ -1,0 +1,52 @@
+{% import "controls/form_macro.html" as form with context %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 36px;">#</th>
+        <th>设备型号</th>
+        <th>设备类别</th>
+        <th>供应厂商</th>
+        <th style="width: 36px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for device_type in bind_data.type_list %}
+    <tr id="{{ device_type.dev_typeid }}">
+        <td>{{ device_type.dev_typeid }}</td>
+        <td>{{ device_type.dev_type }}</td>
+        <td>{{ bind_data.class_list[device_type.dev_class_id] }}</td>
+        <td>{{ bind_data.vendor_list[device_type.device_vendor_id] }}</td>
+        <td>
+            {{ form.button_edit("btn_edit_type") }}
+            {{ form.button_remove("btn_remove_type") }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('a#btn_edit_type').click(function(e){
+            var type_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/update/device_type/' + type_id, function(){
+                $('#type_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_type_list').load('/devmgr/grid/list/device_type');
+                        })
+            });
+        })
+
+        $('a#btn_remove_type').click(function(e){
+            var type_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/delete/device_type/' + type_id, function(){
+                $('#type_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_type_list').load('/devmgr/grid/list/device_type');
+                        })
+            });
+        })
+    })
+</script>

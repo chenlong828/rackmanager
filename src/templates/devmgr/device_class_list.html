@@ -1,0 +1,47 @@
+{% import "controls/form_macro.html" as form with context %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 36px;">#</th>
+        <th>设备类型</th>
+        <th style="width: 36px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for device_class in bind_data.class_list %}
+    <tr id="{{ device_class.dev_classid }}">
+        <td>{{ device_class.dev_classid }}</td>
+        <td>{{ device_class.dev_class_desc }}</td>
+        <td>
+            {{ form.button_edit("btn_edit_class") }}
+            {{ form.button_remove("btn_remove_class") }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('a#btn_edit_class').click(function(e){
+            var class_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/update/device_class/' + class_id, function(){
+                $('#class_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_class_list').load('/devmgr/grid/list/device_class');
+                        })
+            });
+        })
+
+        $('a#btn_remove_class').click(function(e){
+            var class_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/delete/device_class/' + class_id, function(){
+                $('#class_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_class_list').load('/devmgr/grid/list/device_class');
+                        })
+            });
+        })
+    })
+</script>

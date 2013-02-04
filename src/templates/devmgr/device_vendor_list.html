@@ -1,0 +1,54 @@
+{% import "controls/form_macro.html" as form with context %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 36px;">#</th>
+        <th>厂商</th>
+        <th>联系人</th>
+        <th>联系电话</th>
+        <th style="width: 36px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for vendor in bind_data.vendor_list %}
+    <tr id="{{ vendor.vendor_id }}">
+        <td>{{ vendor.vendor_id }}</td>
+        <td>{{ vendor.vendor_name }}</td>
+        <td>{{ vendor.vendor_contact }}</td>
+        <td>{{ vendor.vendor_phone }}</td>
+        <td>
+            {{ form.button_edit("btn_edit_vendor") }}
+            {{ form.button_remove("btn_remove_vendor") }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('a#btn_edit_vendor').click(function(e){
+            var vendor_id = $(this).parent().parent().attr('id');
+
+            $('#dynamic_dialog').load('/devmgr/dialog/update/vendor/' + vendor_id, function(){
+                $('#vendor_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#vendor_list').load('/devmgr/grid/list/vendor');
+                        })
+            });
+        })
+
+        $('a#btn_remove_vendor').click(function(e){
+            var vendor_id = $(this).parent().parent().attr('id');
+
+            $('#dynamic_dialog').load('/devmgr/dialog/delete/vendor/' + vendor_id, function(){
+                $('#vendor_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#vendor_list').load('/devmgr/grid/list/vendor');
+                        })
+            });
+        })
+    })
+</script>

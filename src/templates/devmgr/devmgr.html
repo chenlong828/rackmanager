@@ -1,0 +1,155 @@
+{% extends "base/base_template.html" %}
+{% import "controls/form_macro.html" as form with context%}
+{% block header %}
+    <h3>云计算公司网络管理系统-设备管理</h3>
+{% endblock %}
+
+{% block main %}
+    <ul class="nav nav-tabs" id="racktab">
+        <li class="active"><a href="#mgr_racks" data-toggle="tab">机架信息维护</a></li>
+        <li><a href="#mgr_zone" data-toggle="tab">机房信息维护</a></li>
+        <li><a href="#mgr_device_nodes" data-toggle="tab">设备节点管理</a></li>
+        <li><a href="#mgr_device_types" data-toggle="tab">设备型号管理</a></li>
+        <li><a href="#mgr_device_class" data-toggle="tab">设备种类管理</a></li>
+        <li><a href="#mgr_device_vendor" data-toggle="tab">设备厂商管理</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="mgr_racks">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    {{ form.button_small("btn_refresh_rack", "刷新") }}
+                    {{ form.button_small("btn_add_rack", "登记新机架") }}
+                </div>
+                <div id="rack_list" class="span11"></div>
+            </div>
+        </div>
+        <div class="tab-pane" id="mgr_zone">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    {{ form.button_small("btn_refresh_zone", "刷新") }}
+                    {{ form.button_small("btn_add_zone", "登记新机房") }}
+                </div>
+                <div id="zone_list" class="span11"></div>
+            </div>
+        </div>
+        <div class="tab-pane" id="mgr_device_nodes">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    {{ form.button_small("btn_refresh_node", "刷新") }}
+                    <a href="/" target="_blank" class="active">登记新设备</a>
+                </div>
+                <div id="device_node_list" class="span11"></div>
+            </div>
+        </div>
+        <div class="tab-pane" id="mgr_device_types">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    {{ form.button_small("btn_refresh_type", "刷新") }}
+                    {{ form.button_small("btn_add_type", "登记新型号") }}
+                </div>
+                <div id="device_type_list" class="span11"></div>
+            </div>
+        </div>
+        <div class="tab-pane" id="mgr_device_class">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    {{ form.button_small("btn_refresh_class", "刷新") }}
+                    {{ form.button_small("btn_add_class", "添加新类型") }}
+                </div>
+                <div id="device_class_list" class="span11"></div>
+            </div>
+        </div>
+        <div class="tab-pane" id="mgr_device_vendor">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    {{ form.button_small("btn_refresh_vendor", "刷新") }}
+                    {{ form.button_small("btn_add_vendor", "登记新厂商") }}
+                </div>
+                <div id="device_vendor_list" class="span11"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsbolck %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#devmgr_nav').addClass('active');
+
+        $('#rack_list').load('/devmgr/grid/list/rack');
+        $('#btn_refresh_rack').click(function (e) {
+            $('#rack_list').load('/devmgr/grid/list/rack');
+        })
+        $('#btn_add_rack').click(function(e){
+            $('#dynamic_dialog').load('/devmgr/dialog/add/rack', function(){
+                $('#rack_detail')
+                        .modal('show')
+                        .on('hidden', function () {
+                            $('#rack_list').load('/devmgr/grid/list/rack');
+                        });
+            });
+        });
+
+        $('#zone_list').load('/devmgr/grid/list/zone');
+        $('#btn_refresh_zone').click(function (e) {
+            $('#zone_list').load('/devmgr/grid/list/zone');
+        })
+        $('#btn_add_zone').click(function(e){
+            $('#dynamic_dialog').load('/devmgr/dialog/add/zone', function(){
+                $('#zone_detail')
+                        .modal('show')
+                        .on('hidden', function () {
+                            $('#zone_list').load('/devmgr/grid/list/zone');
+                        });
+            });
+        });
+
+        $('#device_node_list').load('/devmgr/grid/list/device_node');
+        $('#btn_refresh_node').click(function (e) {
+            $('#device_node_list').load('/devmgr/grid/list/device_node');
+        })
+
+        $('#device_type_list').load('/devmgr/grid/list/device_type');
+        $('#btn_refresh_type').click(function (e) {
+            $('#device_type_list').load('/devmgr/grid/list/device_type')
+        });
+        $('#btn_add_type').click(function(e){
+            $('#dynamic_dialog').load('/devmgr/dialog/add/device_type', function(){
+                $('#type_detail')
+                        .modal('show')
+                        .on('hidden', function () {
+                            $('#device_type_list').load('/devmgr/grid/list/device_type');
+                        });
+            });
+        });
+
+        $('#device_class_list').load('/devmgr/grid/list/device_class');
+        $('#btn_refresh_class').click(function (e) {
+            $('#device_class_list').load('/devmgr/grid/list/device_class')
+        });
+        $('#btn_add_class').click(function(e){
+            $('#dynamic_dialog').load('/devmgr/dialog/add/device_class', function(){
+                $('#class_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_class_list').load('/devmgr/grid/list/device_class');
+                })
+            });
+        });
+
+        $('#device_vendor_list').load('/devmgr/grid/list/device_vendor');
+        $('#btn_refresh_vendor').click(function (e) {
+            $('#device_vendor_list').load('/devmgr/grid/list/device_vendor');
+        })
+        $('#btn_add_vendor').click(function (e) {
+            $('#dynamic_dialog').load('/devmgr/dialog/add/device_vendor', function () {
+                $('#vendor_detail')
+                        .modal('show')
+                        .on('hidden', function () {
+                            $('#device_vendor_list').load('/devmgr/grid/list/device_vendor');
+                        });
+            });
+        });
+    });
+</script>
+{% endblock %}

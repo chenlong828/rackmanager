@@ -1,0 +1,29 @@
+{% extends "base/layout.html" %}
+{% block navmain %}
+    <ul class="nav nav-pills nav-stacked">
+        <li id="instdev_nav"><a href="#">设备上架</a></li>
+        <li id="devmgr_nav"><a href="#">设备元数据</a></li>
+        <li id="netmgr_nav"><a href="#">网络配置</a></li>
+        <li id="report_nav"><a href="#">机房报表</a></li>
+    </ul>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#instdev_nav').click(function(){
+                location.href = '/instdev';
+            });
+
+            $('#devmgr_nav').click(function(){
+                location.href = '/devmgr';
+            });
+
+            $('#netmgr_nav').click(function(){
+                location.href = '/netmgr';
+            });
+
+            $('#report_nav').click(function(){
+                location.href = '/report';
+            });
+        })
+
+    </script>
+{% endblock %}

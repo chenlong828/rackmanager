@@ -1,0 +1,116 @@
+{% extends "base/base_template.html" %}
+{% import "controls/form_macro.html" as form with context%}
+{% block header %}
+    <h3>云计算公司网络管理系统-设备上架</h3>
+{% endblock %}
+{% block main %}
+    <ul class="nav nav-tabs" id="racktab">
+        <li class="active"><a href="#reg_devpos" data-toggle="tab">设备上架登记</a></li>
+        <li><a href="#reg_netport" data-toggle="tab">网络端口连线</a></li>
+        <li><a href="#reg_mgrip" data-toggle="tab">配置管理口IP</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="reg_devpos">
+            <div class="row-fluid">
+                <div id="reg_devpos_from_wrapper">
+                    <form id="reg_devpos_form" class="form-inline">
+                        <fieldset>
+                            <legend>设备基本信息</legend>
+                            {{ form.input("device_alias", "设备别名", "Hadoop-1", layout_class="span5 offset1") }}
+                            {{ form.multiSelect("device_type", "设备型号", bind_data.device_type, "dev_typeid", "dev_type",layout_class="span5") }}
+                            {{ form.multiSelect("device_class", "设备类型", bind_data.device_class, "dev_classid","dev_class_desc", layout_class="span5 offset1") }}
+                        </fieldset>
+                        <fieldset>
+                            <legend>上架信息</legend>
+                            <!--后续：动态关联优化，选定机房后显示机房中的机架，而不是所有的-->
+                            {{ form.multiSelect("rack_room", "安装机房", bind_data.rack_zone, "zone_id","zone_name",layout_class="span5 offset1") }}
+                            {{ form.multiSelect("rack_pos", "安装机架", bind_data.rack_pos, "rack_id","rack_name",layout_class="span5") }}
+                            {{ form.between_input("安装机位", "起始机位", "dev_rackpos_begin", "结束机位", "dev_rackpos_end", layout_class="span5 offset1") }}
+                        </fieldset>
+                        <fieldset>
+                            <legend>归属信息</legend>
+                                {{ form.input("dev_owner", "设备归属人", "该设备的归属联系人", layout_class="span5 offset1") }}
+                                {{ form.input("dev_contact","联系方式","归属联系人的联系方式", layout_class="span5") }}
+                        </fieldset>
+                    <div class="span4 offset3">
+                        {{ form.button_submit() }}
+                        {{ form.button_reset() }}
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="reg_netport">
+            <div class="row-fluid">
+                <form id="netport_wire_form" class="form-inline">
+                    <fieldset>
+                        <legend>选择源设备</legend>
+                        {{ form.select("src_rack_pos", "所在机房", bind_data.rack_room, layout_class="span5 offset1") }}
+                        {{ form.select("src_rack", "所在机架", bind_data.rack_pos, layout_class="span5") }}
+                        {{ form.select("src_device", "选定设备", bind_data.device_list, layout_class="span5 offset1") }}
+                        {{ form.select("src_netport", "连接端口", bind_data.dev_port_list, layout_class="span5") }}
+                    </fieldset>
+                    <fieldset>
+                        <legend>选择目的端口</legend>
+                        {{ form.select("dest_rack_pos", "所在机房", bind_data.rack_room, layout_class="span5 offset1") }}
+                        {{ form.select("dest_rack", "所在机架", bind_data.rack_pos, layout_class="span5") }}
+                        {{ form.select("dest_device", "选定设备", bind_data.device_list, layout_class="span5 offset1") }}
+                        {{ form.select("dest_netport", "连接端口", bind_data.dev_port_list, layout_class="span5") }}
+                    </fieldset>
+                    <div class="span4 offset3">
+                        <button class="btn btn-primary btn-small" type="submit">提交</button>
+                        <button class="btn btn-small" type="reset">重填</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="tab-pane" id="reg_mgrip">
+            <div class="row-fluid">
+                <form id="reg_mgrip_form" class="form-inline">
+                    <fieldset>
+                        <legend>定位设备</legend>
+                        {{ form.select("mgrip_rack_pos", "所在机房", bind_data.rack_room, layout_class="span5 offset1") }}
+                        {{ form.select("mgrip_rack", "所在机架", bind_data.rack_pos, layout_class="span5") }}
+                        {{ form.select("mgr_device", "选定设备", bind_data.device_list, layout_class="span5 offset1") }}
+                        <div class="span5">
+                            <div class="control-group" style="margin-top: 10px;">
+                                {{ form.button_small("btn_ref_mgrip", "刷新管理IP") }}
+                                {{ form.button_small("btn_add_mgrip", "添加管理IP") }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <table class="table table-bordered table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>IP地址</th>
+                                <th>描述</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>172.16.5.40</td>
+                                <td>vCenter管理口</td>
+                                <td>
+                                    {{ form.button_action("mgrip_edit","编辑") }}
+                                    {{ form.button_action("mgrip_del","删除") }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsbolck %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#instdev_nav').addClass('active');
+
+        });
+    </script>
+{% endblock %}

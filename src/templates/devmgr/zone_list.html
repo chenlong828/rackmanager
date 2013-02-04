@@ -1,0 +1,52 @@
+{% import "controls/form_macro.html" as form with context %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 36px;">#</th>
+        <th>机房描述</th>
+        <th>联系人</th>
+        <th>联系电话</th>
+        <th style="width: 36px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for zone in bind_data.zone_list %}
+    <tr id="{{ zone.zone_id }}">
+        <td>{{ zone.zone_id }}</td>
+        <td>{{ zone.zone_name }}</td>
+        <td>{{ zone.zone_owner }}</td>
+        <td>{{ zone.zone_phone }}</td>
+        <td>
+            {{ form.button_edit("btn_edit_zone") }}
+            {{ form.button_remove("btn_remove_zone") }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('a#btn_edit_zone').click(function(e){
+            var zone_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/update/zone/' + zone_id, function(){
+                $('#zone_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#zone_list').load('/devmgr/grid/list/zone');
+                        })
+            });
+        })
+
+        $('a#btn_remove_zone').click(function(e){
+            var zone_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/delete/zone/' + zone_id, function(){
+                $('#zone_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#zone_list').load('/devmgr/grid/list/zone');
+                        })
+            });
+        })
+    })
+</script>

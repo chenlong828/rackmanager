@@ -1,0 +1,40 @@
+{% import "controls/form_macro.html" as form with context %}
+{% set prefix = "type" %}
+{% set title = "登记新设备型号信息" %}
+
+<div id="{{ prefix }}_detail" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>{{ title }}</h3>
+    </div>
+    <div id="modal-body" class="modal-body">
+        <div class="row-fluid">
+            <form id="{{ prefix }}_detail_form" class="form-inline">
+                <fieldset>
+                    <legend style="border-bottom-style: none;"></legend>
+                    {{ form.input("device_type_name", "设备型号",layout_class="span10 offset1") }}
+                    {{ form.multiSelect("device_type_class","设备类型",bind_data.class_list,"dev_classid","dev_class_desc",layout_class="span10 offset1") }}
+                    {{ form.multiSelect("device_type_vendor","设备厂商", bind_data.vendor_list,"vendor_id","vendor_name",layout_class="span10 offset1") }}
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">取消</a>
+        <a href="#" class="btn btn-primary" id="btn_save_type">添加</a>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#btn_save_type').click(function(e) {
+                $.post('/devmgr/action/add/device_type', {type_id:$('#device_type_id').val(),
+                            type_name:$('#device_type_name').val(),
+                            type_class_id:$('#device_type_class').val(),
+                            type_vendor_id:$('#device_type_vendor').val()
+                        },
+                        function(){
+                            $('#type_detail').modal('hide');
+                        })
+            })
+        })
+    </script>
+</div>

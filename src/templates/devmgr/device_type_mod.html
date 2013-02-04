@@ -1,0 +1,38 @@
+{% import "controls/form_macro.html" as form with context %}
+{% set prefix = "type" %}
+{% set title = "修改设备型号信息" %}
+
+<div id="{{ prefix }}_detail" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>{{ title }}</h3>
+    </div>
+    <div id="modal-body" class="modal-body">
+        <div class="row-fluid">
+            <form id="{{ prefix }}_detail_form" class="form-inline">
+                <fieldset>
+                    <legend style="border-bottom-style: none;"></legend>
+                    {{ form.input_ro("设备型号", bind_data.dev_type, "span10 offset1") }}
+                    {{ form.multiSelect("device_type_class","设备类型",bind_data.class_list,"dev_classid","dev_class_desc",layout_class="span10 offset1") }}
+                    {{ form.multiSelect("device_type_vendor","设备厂商", bind_data.vendor_list,"vendor_id","vendor_name",layout_class="span10 offset1") }}
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true" data-dismiss="modal" aria-hidden="true">取消</a>
+        <a href="#" class="btn btn-primary" id="btn_save_{{ prefix }}">修改</a>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#btn_save_type').click(function(e) {
+                $.post('/devmgr/action/update/device_type', {type_id:{{ bind_data.type_id }},
+                            class_id:$('#device_type_class').val(),
+                            vendor_id:$('#device_type_vendor').val()},
+                        function(){
+                            $('#type_detail').modal('hide');
+                        })
+            })
+        })
+    </script>
+</div>

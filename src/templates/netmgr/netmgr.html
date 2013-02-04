@@ -1,0 +1,131 @@
+{% extends "base/base_template.html" %}
+{% block header %}
+    <h3>云计算公司网络管理系统-网络配置</h3>
+{% endblock %}
+{% block main %}
+    <ul class="nav nav-tabs" id="racktab">
+        <li class="active"><a href="#vlan_mgr" data-toggle="tab">VLAN管理</a></li>
+        <li><a href="#nat_mgr" data-toggle="tab">NAT公网映射配置</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="vlan_mgr">
+            <div class="row-fluid">
+                <div class="offset4">
+                    <form class="form-inline">
+
+                        <label for="sel_vlan_group">VLAN群组</label>
+                        <select id="sel_vlan_group" class="input-small">
+
+                        </select>
+                        <label class="control-label" for="tbx_vlan_begin" style="width: 120px;text-align: right">VLAN号码段</label>
+                        <input id="tbx_vlan_begin" class="input-mini" type="text"/>
+                        <label for="tbx_vlan_end">到</label>
+                        <input id="tbx_vlan_end" class="input-mini" type="text"/>
+                        <button id="btn_refresh_vlan" class="btn btn-small btn-success">刷新信息</button>
+                        <button id="btn_add_vlan" class="btn btn-small btn-success">增加VLAN</button>
+                    </form>
+                </div>
+                <table class="table table-bordered table-striped table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>VLAN号</th>
+                        <th>网关IP</th>
+                        <th>网段</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="1">
+                        <td>1</td>
+                        <td>26</td>
+                        <td>172.16.3.254</td>
+                        <td>172.16.0.0/22</td>
+                        <td>研发资源池DHCP网段</td>
+                        <td>
+                            <a href="#" id="vlan_edit" class="btn btn-small btn-info">编辑</a>
+                            <a href="#" id="vlan_del" class="btn btn-small btn-info">删除</a>
+                        </td>
+                    </tr>
+                    <tr id="2">
+                        <td>1</td>
+                        <td>26</td>
+                        <td>172.16.3.254</td>
+                        <td>172.16.0.0/22</td>
+                        <td>研发资源池DHCP网段</td>
+                        <td>
+                            <a href="#" id="vlan_edit" class="btn btn-small btn-info">编辑</a>
+                            <a href="#" id="vlan_del" class="btn btn-small btn-info">删除</a>
+                        </td>
+                    </tr>
+                    <tr id="3">
+                        <td>1</td>
+                        <td>26</td>
+                        <td>172.16.3.254</td>
+                        <td>172.16.0.0/22</td>
+                        <td>研发资源池DHCP网段</td>
+                        <td>
+                            <a href="#" id="vlan_edit" class="btn btn-small btn-info">编辑</a>
+                            <a href="#" id="vlan_del" class="btn btn-small btn-info">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane" id="nat_mgr">
+            <div class="offset4">
+                <form class="form-inline">
+                    <label for="tbx_internal_ip">内网IP地址</label>
+                    <input id="tbx_internal_ip" class="input-small" type="text">
+                    <label class="control-label" for="tbx_public_ip" style="width: 120px;text-align: right">VLAN号码段</label>
+                    <input id="tbx_public_ip" class="input-mini" type="text"/>
+                    <button id="btn_add_nat" class="btn btn-small btn-success">增加VLAN</button>
+                    <button id="btn_refresh_nat" class="btn btn-small btn-success">刷新</button>
+                </form>
+            </div>
+            <table class="table table-bordered table-striped table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>内网IP</th>
+                    <th>外网IP</th>
+                    <th>描述</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="253">
+                    <td>1</td>
+                    <td>172.16.0.9</td>
+                    <td>124.127.204.54</td>
+                    <td>公司官网主页</td>
+                    <td>
+                        <a href="#" id="nat_edit" class="btn btn-small btn-info">编辑</a>
+                        <a href="#" id="nat_del" class="btn btn-small btn-info">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+             </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsbolck %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#netmgr_nav').addClass('active');
+
+            $('a#vlan_edit').click(function(){
+                var id = $(this).parent().parent().attr('id');
+                alert(id);
+            });
+
+            $('a#nat_edit').click(function(){
+                var id = $(this).parent().parent().attr('id');
+                alert(id);
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% import "controls/form_macro.html" as form with context %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 36px;">#</th>
+        <th>设备别名</th>
+        <th>设备型号</th>
+        <th>设备类别</th>
+        <th>安装机架</th>
+        <th>所在机房</th>
+        <th>U位-</th>
+        <th>-U位</th>
+        <th>归属人</th>
+        <th>联系方式</th>
+        <th style="width: 36px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for device_node in bind_data.node_list %}
+    <tr id="{{ device_node.device_id }}">
+        <td>{{ device_node.device_id }}</td>
+        <td>{{ device_node.device_alias }}</td>
+        <td>{{ bind_data.type_list[device_node.device_typeid]}}</td>
+        <td>{{ bind_data.class_list[device_node.device_classid] }}</td>
+        <td>{{ bind_data.rack_list[device_node.device_rack_pos.rack_id] }}</td>
+        <td>{{ bind_data.zone_list[device_node.device_rack_pos.rack.zone_id] }}</td>
+        <td>{{ device_node.device_rack_pos.start_pos }}</td>
+        <td>{{ device_node.device_rack_pos.end_pos }}</td>
+        <td>{{ device_node.device_owner }}</td>
+        <td>{{ device_node.device_contact }}</td>
+        <td>
+            {{ form.button_edit("btn_edit_type") }}
+            {{ form.button_remove("btn_remove_type") }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('a#btn_edit_type').click(function(e){
+            var type_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/update/device_type/' + type_id, function(){
+                $('#type_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_type_list').load('/devmgr/grid/list/device_type');
+                        })
+            });
+        })
+
+        $('a#btn_remove_type').click(function(e){
+            var type_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/delete/device_type/' + type_id, function(){
+                $('#type_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#device_type_list').load('/devmgr/grid/list/device_type');
+                        })
+            });
+        })
+    })
+</script>

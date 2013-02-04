@@ -1,0 +1,52 @@
+{% import "controls/form_macro.html" as form with context %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 36px;">#</th>
+        <th>机架描述</th>
+        <th>位置描述</th>
+        <th>所在机房</th>
+        <th style="width: 36px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for rack in bind_data.rack_list %}
+    <tr id="{{ rack.rack_id }}">
+        <td>{{ rack.rack_id }}</td>
+        <td>{{ rack.rack_name }}</td>
+        <td>{{ rack.rack_pos }}</td>
+        <td>{{ bind_data.zone_list[rack.zone_id] }}</td>
+        <td>
+            {{ form.button_edit("btn_edit_rack") }}
+            {{ form.button_remove("btn_remove_rack") }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('a#btn_edit_rack').click(function(e){
+            var rack_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/update/rack/' + rack_id, function(){
+                $('#rack_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#rack_list').load('/devmgr/grid/list/rack');
+                        })
+            });
+        })
+
+        $('a#btn_remove_rack').click(function(e){
+            var rack_id = $(this).parent().parent().attr('id');
+            $('#dynamic_dialog').load('/devmgr/dialog/delete/rack/' + rack_id, function(){
+                $('#rack_detail')
+                        .modal('show')
+                        .on('hidden', function(){
+                            $('#rack_list').load('/devmgr/grid/list/rack');
+                        })
+            });
+        })
+    })
+</script>

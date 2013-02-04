@@ -1,0 +1,34 @@
+{% import "controls/form_macro.html" as form with context %}
+{% set title = "确实要删除该指定厂商信息？" %}
+
+<div id="vendor_detail" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>{{ title }}</h3>
+    </div>
+    <div id="modal-body" class="modal-body">
+        <div class="row-fluid">
+            <form id="class_detail_form" class="form-inline">
+                <fieldset>
+                    <legend style="border-bottom-style: none;"></legend>
+                    {{ form.input_ro("厂商名称", bind_data.vendor_name, "span10 offset1") }}
+                    {{ form.input_ro("联系人员", bind_data.vendor_contact, "span10 offset1") }}
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">取消</a>
+        <a href="#" class="btn btn-primary" id="btn_delete_vendor">删除</a>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#btn_delete_vendor').click(function(e) {
+                $.post('/devmgr/action/delete/device_vendor', {vendor_id:{{ bind_data.vendor_id }}},
+                        function(){
+                            $('#vendor_detail').modal('hide');
+                        })
+            })
+        })
+    </script>
+</div>

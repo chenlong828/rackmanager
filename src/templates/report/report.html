@@ -1,0 +1,37 @@
+{% extends "base/base_template.html" %}
+{% block header %}
+    <h3>云计算公司网络管理系统-报表视图</h3>
+{% endblock %}
+{% block main %}
+    <ul class="nav nav-tabs" id="racktab">
+        <li class="active"><a href="#netres_report" data-toggle="tab">网络资源视图</a></li>
+        <li><a href="#rack_report" data-toggle="tab">机架机位统计</a></li>
+        <li><a href="#log_report" data-toggle="tab">报警与日志</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="netres_report">
+            <div class="row-fluid">
+                <div class="span4 offset7">
+                    <input class="btn btn-info btn-small" id="btnsearch" type="button" value="Search"/>
+                    <input class="btn btn-info btn-small" type="button" value="Add"/>
+                </div>
+                <div class="span11">
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="rack_report">
+            <p>Howdy, I'm in Section 2.</p>
+        </div>
+        <div class="tab-pane" id="log_report">
+            <p>Howdy, I'm in Section 2.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsbolck %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#report_nav').addClass('active');
+        });
+    </script>
+{% endblock %}

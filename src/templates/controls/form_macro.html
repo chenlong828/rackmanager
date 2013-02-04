@@ -1,0 +1,118 @@
+
+<!--标准文本输入框-->
+{% macro input(ctrl_tag, ctrl_name, ctrl_alt="", ctrl_value="", layout_class="") %}
+    {% if layout_class != "" %}
+        <div class="{{ layout_class }}">
+    {% endif %}
+        <div class="control-group" style="margin-top: 10px">
+            <label class="control-label" for="{{ ctrl_tag }}" style="min-width: 80px;">{{ ctrl_name }}</label>
+            <input id="{{ ctrl_tag }}" type="text" name="{{ ctrl_tag }}"
+                       placeholder="{{ ctrl_alt }}" value="{{ ctrl_value }}"/>
+        </div>
+    {% if layout_class !="" %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+<!--文本内容只读显示-->
+{% macro input_ro(ctrl_name, ctrl_value, layout_class="") %}
+    {% if layout_class != "" %}
+        <div class="{{ layout_class }}">
+    {% endif %}
+            <div class="control-group" style="margin-top: 10px">
+                <label class="control-label" style="min-width: 80px;">{{ ctrl_name }}</label>
+                <label class="control-label">{{ ctrl_value }}</label>
+            </div>
+    {% if layout_class !="" %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+<!--单选框-->
+{% macro select(ctrl_tag, ctrl_name, item_list,selected_key=-1, layout_class="") %}
+    {% if layout_class != "" %}
+        <div class="{{ layout_class }}">
+    {% endif %}
+        <div class="control-group" style="margin-top: 10px">
+            <label class="control-label" for="{{ ctrl_tag }}" style="min-width: 80px;">{{ ctrl_name }}</label>
+            <select id="{{ ctrl_tag }}" name="{{ ctrl_tag }}">
+                {% for item in item_list %}
+                <option value="{{ item.key }}" {% if item.key == selected_key %}selected="true"{% endif %}>{{ item.value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    {% if layout_class !="" %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro multiSelect(ctrl_tag, ctrl_name, item_list,selected_key, selected_value, layout_class="") %}
+{% if layout_class != "" %}
+<div class="{{ layout_class }}">
+    {% endif %}
+    <div class="control-group" style="margin-top: 10px">
+        <label class="control-label" for="{{ ctrl_tag }}" style="min-width: 80px;">{{ ctrl_name }}</label>
+        <select id="{{ ctrl_tag }}" name="{{ ctrl_tag }}">
+            {% for item in item_list %}
+            <option value="{{ item[selected_key] }}" >{{ item[selected_value] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% if layout_class !="" %}
+</div>
+{% endif %}
+
+{% endmacro %}
+<!--区间文本输入，当前用于机架位置选-->
+{% macro between_input(ctrl_name, begin_text, begin_tag, end_text, end_tag, layout_class="", unit_text="U") %}
+    {% if layout_class != "" %}
+        <div class="{{ layout_class }}">
+    {% endif %}
+    <div class="control-group" style="margin-top: 10px">
+        <label class="control-label" for="{{ begin_tag }}" style="min-width: 80px;">{{ ctrl_name }}</label>
+            <div class="input-append">
+                <input id="{{ begin_tag }}" type="text" name="{{ begin_tag }}"
+                       placeholder="{{ begin_text }}" class="appendedInput" style="width: 60px"/>
+                <span class="add-on">{{ unit_text }}</span>
+            </div>
+        <label class="control-label" for="{{ end_tag }}" style="width: 15px;text-align: center">到</label>
+            <div class="input-append">
+                <input id="{{ end_tag }}" type="text" name="{{ end_tag }}"
+                       placeholder="{{ end_text }}" class="appendedInput" style="width: 60px"/>
+                <span class="add-on">{{ unit_text }}</span>
+            </div>
+    </div>
+    {% if layout_class !="" %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+<!--提交按钮-->
+{% macro button_submit(ctrl_id="", text="提交", class="btn btn-primary btn-small") %}
+    <button {% if ctrl_id != "" %}id="{{ ctrl_id }}" {% endif %} class="{{ class }}" type="submit">{{ text }}</button>
+{% endmacro %}
+
+<!--Reset按钮-->
+{% macro button_reset(ctrl_id="", text="重置", class="btn btn-small") %}
+    <button {% if ctrl_id != "" %}id="{{ ctrl_id }}" {% endif %} class="{{ class }}" type="reset">{{ text }}</button>
+{% endmacro %}
+
+<!--查询按钮-small-->
+{% macro button_small(ctrl_id, text="查询", class="btn btn-success btn-small") %}
+    <a href="#" id="{{ ctrl_id }}" class="{{ class }}">{{ text }}</a>
+{% endmacro %}
+
+<!--动作按钮-small-->
+{% macro button_action(ctrl_id, text="编辑", class="btn btn-info btn-small") %}
+    <a href="#" id="{{ ctrl_id }}" class="{{ class }}">{{ text }}</a>
+{% endmacro %}
+
+<!--行内编辑按钮-small-->
+{% macro button_edit(ctrl_id, onclick) %}
+    <a href="#" id="{{ ctrl_id }}" class="icon-pencil"></a>
+{% endmacro %}
+
+<!--行内删除按钮-small-->
+{% macro button_remove(ctrl_id) %}
+    <a href="#" id="{{ ctrl_id }}" class="icon-remove"></a>
+{% endmacro %}
